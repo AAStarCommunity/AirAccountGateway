@@ -41,7 +41,10 @@ func SetRouters() (routers *gin.Engine) {
 // buildRouters 构建路由表
 func buildRouters(router *gin.Engine) {
 	r := router.Group("/api/instructions")
+	r.GET("/balance", actions.Balance)
 	r.POST("/bind", actions.Bind)
+	r.GET("/transfer/check", actions.TransferCheck)
+	r.POST("/transfer", actions.Transfer)
 }
 
 // buildSwagger 创建swagger文档

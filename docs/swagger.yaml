@@ -1,0 +1,84 @@
+definitions:
+  request.Transfer:
+    properties:
+      receiver:
+        description: 接收人ID
+        type: string
+      value:
+        description: 转账金额
+        type: string
+    type: object
+info:
+  contact: {}
+paths:
+  /api/instructions/balance:
+    get:
+      consumes:
+      - application/json
+      description: 查询余额指令
+      parameters:
+      - description: identity
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+      tags:
+      - Instructions
+  /api/instructions/bind:
+    post:
+      consumes:
+      - application/json
+      description: 绑定钱包指令
+      parameters:
+      - description: identity
+        in: query
+        name: id
+        required: true
+        type: string
+      responses:
+        "201":
+          description: Created
+      tags:
+      - Instructions
+  /api/instructions/transfer:
+    post:
+      consumes:
+      - application/json
+      description: 转账指令
+      parameters:
+      - description: identity
+        in: query
+        name: id
+        required: true
+        type: string
+      - description: Request
+        in: body
+        name: ContentBody
+        required: true
+        schema:
+          $ref: '#/definitions/request.Transfer'
+      responses:
+        "202":
+          description: Accepted
+      tags:
+      - Instructions
+  /api/instructions/transfer/check:
+    get:
+      consumes:
+      - application/json
+      description: 转账结果查询指令
+      parameters:
+      - description: transfer op
+        in: query
+        name: op
+        required: true
+        type: string
+      responses:
+        "200":
+          description: OK
+      tags:
+      - Instructions
+swagger: "2.0"
