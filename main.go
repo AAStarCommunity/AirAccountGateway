@@ -8,6 +8,10 @@ import (
 
 func main() {
 	// server模式运行
-	port := conf.Get().Service.Port
+	c := conf.Get()
+	fmt.Println("node:" + c.Node.Host)
+	fmt.Println(fmt.Sprintf("port: %d", c.Service.Port))
+
+	port := c.Service.Port
 	_ = controllers.SetRouters().Run(fmt.Sprintf(":%d", port))
 }

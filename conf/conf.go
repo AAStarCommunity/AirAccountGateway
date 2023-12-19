@@ -3,6 +3,7 @@ package conf
 import (
 	"k8s.io/apimachinery/pkg/util/yaml"
 	"os"
+	"strconv"
 	"sync"
 )
 
@@ -48,5 +49,22 @@ func getConfiguration(filePath *string) *Conf {
 }
 
 func getConfFromEnv() *Conf {
-	return &Conf{Node: struct{ Host string }{Host: os.Getenv("wallet__host")}}
+	nodeHost := os.Getenv("node__host")
+	svcPort := os.Getenv("service__port")
+	port, err := strconv.Atoi(svcPort)
+	if err != nil {
+		port = 80
+	}
+	return &Conf{
+		Service: struct {
+			Port int
+		}{
+			Port: port,
+		},
+		Node: struct {
+			Host string
+		}{
+			Host: nodeHost,
+		},
+	}
 }
