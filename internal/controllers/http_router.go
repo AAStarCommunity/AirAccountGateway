@@ -31,6 +31,11 @@ func SetRouters() (routers *gin.Engine) {
 	// 构建路由
 	buildRouters(routers) // 构建http路由
 
+	// 健康检查
+	routers.GET("/healthz", func(c *gin.Context) {
+		c.JSON(http.StatusOK, gin.H{"status": "ok"})
+	})
+
 	routers.NoRoute(func(ctx *gin.Context) {
 		response.GetResponse().SetHttpCode(http.StatusNotFound).FailCode(ctx, http.StatusNotFound)
 	})
