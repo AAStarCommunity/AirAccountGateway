@@ -10,6 +10,7 @@ import (
 type BalanceResponse struct {
 	BaseResponse
 	Data string
+	Unit string
 }
 
 // Balance
@@ -28,9 +29,11 @@ func Balance(ctx *gin.Context) {
 		return http.Get(conf.GetNodeHost() + "/wallet/getBalance?Certificate=" + id)
 	}
 	onSuccess := func(v *BalanceResponse) {
+		v.Unit = "USDT"
 		response.Success(ctx, gin.H{
 			"status":  v.Status,
 			"balance": v.Data,
+			"unit":    v.Unit,
 		})
 	}
 	walletApiInvoker(ctx, api, onSuccess)
