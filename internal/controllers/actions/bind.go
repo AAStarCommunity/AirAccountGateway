@@ -5,6 +5,7 @@ import (
 	"AirAccountGateway/internal/models/webapi/response"
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
@@ -29,6 +30,7 @@ func Bind(ctx *gin.Context) {
 			Certificate: id,
 		})
 
+		fmt.Println("[POST] /wallet/bind: " + conf.GetNodeHost() + "/wallet/bind" + " {" + string(body) + "}")
 		return http.Post(
 			conf.GetNodeHost()+"/wallet/bind",
 			"application/json",
