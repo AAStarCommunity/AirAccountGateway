@@ -21,8 +21,23 @@ import (
 // @Success 201
 func Bind(ctx *gin.Context) {
 	id := strings.TrimSpace(ctx.Query("id"))
-
 	id = idToHash(id, SrcSms)
+
+	fmt.Println("[GET] /wallet/check: " + conf.GetNodeHost() + "/wallet/check?certificate=" + id)
+	if resp, err := http.Get(
+		conf.GetNodeHost() + "/wallet/check?certificate=" + id,
+	); err != nil {
+		msg := err.Error()
+		response.Fail(ctx, http.StatusUnprocessableEntity, &msg)
+		return
+	} else {
+		if resp.StatusCode == 201 {
+			msg := "airaccount already exists"
+			response.Fail(ctx, http.StatusNotAcceptable, &msg)
+			return
+		}
+	}
+
 	api := func() (*http.Response, error) {
 		body, _ := json.Marshal(struct {
 			Certificate string `json:"certificate"`
