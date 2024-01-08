@@ -26,7 +26,7 @@ func Balance(ctx *gin.Context) {
 	id := ctx.Query("id")
 	id = idToHash(id, SrcSms)
 	api := func() (*http.Response, error) {
-		return http.Get(conf.GetNodeHost() + "/wallet/getBalance?Certificate=" + id)
+		return http.Get(conf.GetNodeHost() + "/wallet/getBalance?certificate=" + id)
 	}
 	onSuccess := func(v *BalanceResponse) {
 		v.Unit = "USDT"
